@@ -1,38 +1,55 @@
-*{
+* {
   box-sizing: border-box;
+
+}
+
+figure {
+  margin: 0px;
+  padding: 0px;
 }
 
 .container {
+  display: flex;
+  font-family: 'Yatra One', cursive;
+  font-size: 15px;
+  flex-direction: column;
+  align-items: center;
+  min-width: 400px;
   max-width: 400px;
-  //margin: 0px auto 0px auto;
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
 }
 
 .cat-list {
   display: flex;
-  justify-content: space-around;
+  flex-flow: row wrap;
+  padding: 10px;
+  max-width: 100%;
   border: 5px solid #bd9335;
   border-radius: 25px;
-  padding: 10px;
 }
 
 .cat-container {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  min-width: 200px;
+
+
+  max-width: 100%;
+  padding: 10px 5px;
   border: 5px solid #bd9335;
   border-radius: 25px;
-  padding: 5px;
-  max-width: 300px
 }
 
-.info-panel{
+.info-panel {
   display: flex;
-  justify-content: space-around;
-  
+  justify-content: space-between;
+  padding: 0 5px;
+  margin-bottom: 2px;
 }
 
 .cat-pic {
   max-width: 100%;
   border-radius: 5px;
-
 }
