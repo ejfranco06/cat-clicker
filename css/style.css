@@ -1,0 +1,22 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
+
+.container {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; }
+
+.cat-list {
+  border: 5px solid #bd9335;
+  border-radius: 25px;
+  padding: 10px; }
+
+.cat-container {
+  border: 5px solid #bd9335;
+  border-radius: 25px;
+  padding: 5px; }
+
+.cat-pic {
+  max-width: 100%; }
