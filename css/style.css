@@ -9,6 +9,11 @@
   text-align: center; }
 
 .cat-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   border: 5px solid #bd9335;
   border-radius: 25px;
   padding: 10px; }
@@ -16,7 +21,16 @@
 .cat-container {
   border: 5px solid #bd9335;
   border-radius: 25px;
-  padding: 5px; }
+  padding: 5px;
+  max-width: 300px; }
+
+.info-panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around; }
 
 .cat-pic {
-  max-width: 100%; }
+  max-width: 100%;
+  border-radius: 5px; }
