@@ -10,7 +10,7 @@ class Cat {
   }
 
   addToList () {
-    const catListEl = document.getElementsByClassName('cat-list')[0];
+    const catListEl = document.getElementsByClassName('cat-model')[0];
     const fragment = document.createDocumentFragment();
 
     const catContainerEl = document.createElement('div');
@@ -54,9 +54,49 @@ class Cat {
 }
 
 const catSet = [
-  new Cat('xuxa', 'image/xuxa.jpg'),
-  new Cat('chewie', 'image/chewie.jpg')
+  {
+    name: 'xuxa',
+    image: 'image/xuxa.jpg'
+  },
+  {
+    name: 'chewie',
+    image: 'image/chewie.jpg'
+  },
+  {
+    name: 'jetske',
+    image: 'image/jetske.jpg'
+  }
 ];
 
-catSet[0].addToList();
-catSet[1].addToList();
+function createList () {
+  const catSelectorEl = document.getElementsByClassName('cat-selecter')[0];
+  const fragment = document.createDocumentFragment();
+
+  catSet.forEach((cat, index) => {
+    const newOption = document.createElement('option');
+    newOption.setAttribute('value', index);
+
+    const name = document.createTextNode(`${cat.name}`);
+    newOption.appendChild(name);
+    fragment.appendChild(newOption);
+  });
+
+  catSelectorEl.appendChild(fragment);
+
+  catSelectorEl.addEventListener('change', (event) => {
+    const catModelEl = document.getElementsByClassName('cat-model')[0];
+    const catIndex = event.target.value;
+    console.log(catIndex);
+    catModelEl.innerHTML = '';
+    allCats[catIndex].addToList();
+  });
+}
+
+const allCats = [];
+catSet.forEach((cat) => {
+  allCats.push(new Cat(cat.name, cat.image));
+});
+
+allCats[0].addToList();
+
+createList();

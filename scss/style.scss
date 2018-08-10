@@ -22,11 +22,19 @@ figure {
 
 .cat-list {
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: column;
+  align-items: center;
+
   padding: 10px;
   max-width: 100%;
   border: 5px solid #bd9335;
   border-radius: 25px;
+}
+
+.cat-selecter {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
 }
 
 .cat-container {
