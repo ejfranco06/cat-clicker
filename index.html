@@ -16,15 +16,43 @@
       <h1>Cat Clicker</h1>
     </header>
 
+    <div class="cat-content">
 
-    <div class="cat-list">
+      <h3>pick a cat</h3>
 
-      <h3> pick a cat  </h3>
-
-      <select class="cat-selecter" name=" cats">
+      <select class="cat-selecter button" name=" cats">
       </select>
       <div class="cat-model">
+        <div class="cat-container">
+          <div class="info-panel">
+            <span class="name">Name: xuxa</span>
+            <span class="clicks">Clicks: 0</span>
+          </div>
+          <figure>
+            <img class="cat-pic" src="" alt="cat">
+          </figure>
+        </div>
 
+      </div>
+    </div>
+
+    <div class="admin-container">
+      <button type="button" class="admin-btn button">admin</button>
+
+      <div class="cat-info hidden">
+        <div>
+          Name: <input type="text" class="admin-name" name="name" value="">
+        </div>
+        <div>
+          imgUrl:<input type="text" class="admin-url" name="imageUrl" value="">
+        </div>
+        <div>
+          clicks: <input type="text" class="admin-clicks" name="#clicks" value="">
+        </div>
+        <div class="btn-container">
+          <button type="button" class="cancel-btn button">Cancel</button>
+          <button type="button" class="save-btn button">save</button>
+        </div>
       </div>
     </div>
 

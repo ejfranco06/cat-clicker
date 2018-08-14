@@ -24,7 +24,7 @@ figure {
   margin-left: auto;
   margin-right: auto; }
 
-.cat-list {
+.cat-content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -79,3 +79,42 @@ figure {
 .cat-pic {
   max-width: 100%;
   border-radius: 5px; }
+
+.admin-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 5px; }
+
+.cat-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end; }
+
+.btn-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-item-align: center;
+      align-self: center; }
+
+.button {
+  background-color: #f1de6e;
+  border-radius: 5px; }
+
+.hidden {
+  visibility: hidden; }

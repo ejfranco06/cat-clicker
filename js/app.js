@@ -9,6 +9,24 @@ class Cat {
   increaseClicks () {
     this.clicks++;
   }
+
+  setName (name) {
+    if (name !== '') {
+      this.name = name;
+    }
+  }
+
+  setImage (url) {
+    if (url !== '') {
+      this.image = url;
+    }
+  }
+
+  setCount (count) {
+    if (Number.isInteger(count)) {
+      this.clicks = count;
+    }
+  }
 }
 
 const catSet = [
@@ -27,94 +45,174 @@ const catSet = [
   {
     name: 'dave',
     image: 'image/dave.jpg'
+  },
+  {
+    name: 'doug',
+    image: 'image/doug.jpg'
   }
 ];
 const allCats = [];
+let currentCat;
 
 // ================Model===========================
 
 // ===============View=============================
 
-function renderCat (cat) {
-  const catModelEl = document.getElementsByClassName('cat-model')[0];
-  const fragment = document.createDocumentFragment();
+const catView = {
+  render: function (cat) {
+    const nameEl = document.getElementsByClassName('name')[0];
+    nameEl.innerHTML = `Name: ${cat.name}`;
 
-  const catContainerEl = document.createElement('div');
-  catContainerEl.setAttribute('class', 'cat-container');
+    const clicksEl = document.getElementsByClassName('clicks')[0];
+    clicksEl.innerHTML = `Clicks: ${cat.clicks}`;
 
-  const infoPanelEl = document.createElement('div');
-  infoPanelEl.setAttribute('class', 'info-panel');
-  catContainerEl.appendChild(infoPanelEl);
+    const imgEl = document.getElementsByClassName('cat-pic')[0];
+    imgEl.innerHTML = '';
+    imgEl.setAttribute('src', `${cat.image}`);
+    imgEl.setAttribute('alt', 'cat');
+  },
 
-  const nameEl = document.createElement('span');
-  nameEl.setAttribute('class', 'name');
-  nameEl.innerHTML = `Name: ${cat.name}`;
-  infoPanelEl.appendChild(nameEl);
+  addClickEvent: function () {
+    const imgEl = document.getElementsByClassName('cat-pic')[0];
+    const counterEl = document.getElementsByClassName('clicks')[0];
+    imgEl.addEventListener('click', () => {
+      octupus.increaseClicks();
+      counterEl.innerHTML = `Clicks: ${octupus.getClickCount()}`;
+      adminView.render();
+    });
+  }
+};
 
-  const clicksEl = document.createElement('span');
-  clicksEl.setAttribute('class', 'clicks');
-  clicksEl.innerHTML = `Clicks: ${cat.clicks}`;
-  infoPanelEl.appendChild(clicksEl);
+const listView = {
+  render: function (catSet) {
+    const catSelectorEl = document.getElementsByClassName('cat-selecter')[0];
+    const fragment = document.createDocumentFragment();
 
-  const figureEl = document.createElement('figure');
-  const imgEl = document.createElement('img');
-  imgEl.setAttribute('class', 'cat-pic');
-  imgEl.setAttribute('src', `${cat.image}`);
-  imgEl.setAttribute('alt', 'cat');
-  figureEl.appendChild(imgEl);
-  catContainerEl.appendChild(figureEl);
+    catSet.forEach((cat, index) => {
+      const newOption = document.createElement('option');
+      newOption.setAttribute('value', index);
 
-  fragment.appendChild(catContainerEl);
-  catModelEl.innerHTML = '';
-  catModelEl.appendChild(fragment);
+      const name = document.createTextNode(`${cat.name}`);
+      newOption.appendChild(name);
+      fragment.appendChild(newOption);
+    });
+    catSelectorEl.innerHTML = '';
+    catSelectorEl.appendChild(fragment);
+  },
 
-  handleClick(imgEl, clicksEl, cat);
-}
+  addSelectHandler: function () {
+    const catSelectorEl = document.getElementsByClassName('cat-selecter')[0];
+    catSelectorEl.addEventListener('change', (event) => {
+      const catIndex = event.target.value;
+      octupus.setCurrentCat(catIndex);
+      catView.render(octupus.getCurrentCat());
+      adminView.render();
+    });
+  }
+};
 
-function handleClick (target, output, cat) {
-  target.addEventListener('click', () => {
-    cat.increaseClicks();
-    output.innerHTML = `Clicks: ${cat.clicks}`;
-  });
-}
+const adminView = {
+  render: function () {
+    const catInfoEl = document.getElementsByClassName('cat-info')[0];
+    if (catInfoEl.classList.contains('hidden')) {
+      console.log('no updte');
+      return;
+    }
+    const cat = octupus.getCurrentCat();
+    const nameEl = document.getElementsByClassName('admin-name')[0];
+    nameEl.setAttribute('value', cat.name);
 
-function renderCatList (catSet) {
-  const catSelectorEl = document.getElementsByClassName('cat-selecter')[0];
-  const fragment = document.createDocumentFragment();
+    const urlEl = document.getElementsByClassName('admin-url')[0];
+    urlEl.setAttribute('value', cat.image);
 
-  catSet.forEach((cat, index) => {
-    const newOption = document.createElement('option');
-    newOption.setAttribute('value', index);
+    const clicksEl = document.getElementsByClassName('admin-clicks')[0];
+    clicksEl.setAttribute('value', cat.clicks);
+  },
 
-    const name = document.createTextNode(`${cat.name}`);
-    newOption.appendChild(name);
-    fragment.appendChild(newOption);
-  });
+  toggleView: function () {
+    const infoEl = document.getElementsByClassName('cat-info')[0];
+    infoEl.classList.toggle('hidden');
+    this.render();
+  },
 
-  catSelectorEl.appendChild(fragment);
-}
+  addAdminHandler: function () {
+    const adminButton = document.getElementsByClassName('admin-btn')[0];
+    adminButton.addEventListener('click', () => {
+      this.render();
+      this.toggleView();
+    });
+  },
+
+  addCancelHandler: function () {
+    const cancelButton = document.getElementsByClassName('cancel-btn')[0];
+    cancelButton.addEventListener('click', () => {
+      this.toggleView();
+    });
+  },
+
+  addSaveHandler: function () {
+    const saveButton = document.getElementsByClassName('save-btn')[0];
+    saveButton.addEventListener('click', () => {
+      const name = document.getElementsByClassName('admin-name')[0].value;
+      const url = document.getElementsByClassName('admin-url')[0].value;
+      const count = parseInt(document.getElementsByClassName('admin-clicks')[0].value);
+      octupus.updateCatInfo(name, url, count);
+      this.render();
+    });
+  },
+
+  init: function () {
+    this.render();
+    this.addAdminHandler();
+    this.addCancelHandler();
+    this.addSaveHandler();
+  }
+
+};
 // ===============View=============================
 
 // ================Octupus========================
-function addHandleSelect () {
-  const catSelectorEl = document.getElementsByClassName('cat-selecter')[0];
-  catSelectorEl.addEventListener('change', (event) => {
-    const catModelEl = document.getElementsByClassName('cat-model')[0];
-    const catIndex = event.target.value;
-    console.log(catIndex);
-    catModelEl.innerHTML = '';
-    renderCat(allCats[catIndex]);
-  });
-}
 
-function init () {
-  renderCatList(catSet);
-  addHandleSelect();
-  catSet.forEach((cat) => {
-    allCats.push(new Cat(cat.name, cat.image));
-  });
-  renderCat(allCats[0]);
-}
+const octupus = {
+  getClickCount: function () {
+    return currentCat.clicks;
+  },
+
+  getCurrentCat: function () {
+    return currentCat;
+  },
+
+  setCurrentCat: function (index) {
+    currentCat = allCats[index];
+  },
+
+  increaseClicks: function () {
+    currentCat.increaseClicks();
+  },
+
+  updateCatInfo: function (name, url, count) {
+    currentCat.setName(name);
+    currentCat.setImage(url);
+    currentCat.setCount(count);
+    listView.render(allCats);
+    catView.render(currentCat);
+  },
+
+  init: function () {
+    catSet.forEach((cat) => {
+      allCats.push(new Cat(cat.name, cat.image));
+    });
+    currentCat = allCats[0];
+
+    listView.render(allCats);
+    listView.addSelectHandler();
+
+    catView.render(currentCat);
+    catView.addClickEvent();
+
+    adminView.init();
+  }
+};
 // ================Octupus========================
 
-init();
+octupus.init();
